@@ -36,11 +36,15 @@ class CensusData(BaseModel):
 app = FastAPI()
 
 # Defines root greeting
+
+
 @app.get("/")
 async def root():
     return {"message": "Welcome to the Salary Classifier API!"}
 
 # This allows inference via POST to the API.
+
+
 @app.post("/infer")
 async def infer(data_model: CensusData):
     data_dict = data_model.dict()
@@ -65,7 +69,6 @@ async def infer(data_model: CensusData):
     X, y, encoder, lb = process_data(
         data,
         categorical_features=cat_features,
-        label="salary",
         training=False,
         encoder=trained_model.encoder,
         lb=trained_model.lb
