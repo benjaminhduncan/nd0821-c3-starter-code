@@ -1,12 +1,18 @@
-from starter.ml.data import process_data
-import pandas as pd
+"""
+Module for testing the ml data functions
+"""
+
 import numpy
-import pytest
 from sklearn.preprocessing._encoders import OneHotEncoder
 from sklearn.preprocessing._label import LabelBinarizer
 
+from ml.data import process_data
+
 
 def test_process_data(data_fixture):
+    """
+    Function used to test the data pre-processing
+    """
     # TODO: bring categoricals out to config
     cat_features = [
         "workclass",

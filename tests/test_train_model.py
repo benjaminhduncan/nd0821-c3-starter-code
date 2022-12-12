@@ -1,10 +1,16 @@
-from starter.train_model import load_data, validate_model
-from starter.ml.data import TrainingData
-import tempfile
-from pathlib import Path
+"""
+Module for testing the train model module functionality.
+"""
+
+from ml.train_model import load_data, validate_model
+from ml.model import TrainedModel
+from ml.data import TrainingData
 
 
 def test_load_data():
+    """
+    Function to test loading the training data
+    """
     # TODO: bring out to config
     data_path = 'data/census.csv'
     traing_data = load_data(data_path)
@@ -12,7 +18,8 @@ def test_load_data():
 
 
 def test_validate_model(training_data_fixture):
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        model_path = Path(tmpdirname) / 'tmp_model.joblib'
-        validate_model(training_data_fixture, model_path)
-        assert model_path.exists()
+    """
+    Function to test the return of the trained model
+    """
+    trained_model = validate_model(training_data_fixture)
+    assert isinstance(trained_model, TrainedModel)

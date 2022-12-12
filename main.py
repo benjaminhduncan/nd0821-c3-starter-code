@@ -1,21 +1,17 @@
 # Put the code for your API here.
-# Import Union since our Item object will have tags that can be strings or a list.
-from typing import Union
 
 from fastapi import FastAPI
-# BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, Field
-
-from pathlib import Path
-from starter.ml.model import read_model, inference
-from starter.ml.data import process_data
-from starter.train_model import load_data
 import pandas as pd
+
+from ml.model import read_model, inference
+from ml.data import process_data
 
 # Declare the data object with its components and their type.
 
 
 class CensusData(BaseModel):
+    # TODO: add a docstring
     age: int = Field(example=28)
     workclass: str = Field(example='Never-worked')
     fnlwgt: int = Field(example=77516)
@@ -40,30 +36,31 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the Salary Classifier API!"}
+    # TODO: add a docstring
+    return {"msg": "Welcome to the Salary Classifier API!"}
 
 # This allows inference via POST to the API.
 
 
 @app.post("/infer")
 async def infer(data_model: CensusData):
+    # TODO: add a docstring
     data_dict = data_model.dict()
-    data = pd.DataFrame(data_dict)
-    print(data)
+    data = pd.DataFrame([data_dict])
 
     # TODO: bring model path out to a config
-    trained_model = read_model('model/trained_model.joblib')
+    trained_model = read_model('model/trained_model.pkl')
 
     # TODO bring categoricals out to a config
     cat_features = [
         "workclass",
         "education",
-        "marital-status",
+        "marital_status",
         "occupation",
         "relationship",
         "race",
         "sex",
-        "native-country",
+        "native_country",
     ]
 
     X, y, encoder, lb = process_data(
@@ -77,4 +74,4 @@ async def infer(data_model: CensusData):
     raw_preds = inference(trained_model.model, X)
     converted_preds = lb.inverse_transform(raw_preds)[0]
 
-    return converted_preds
+    return {"output": converted_preds}

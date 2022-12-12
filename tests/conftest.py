@@ -1,7 +1,9 @@
+from main import app
+from fastapi.testclient import TestClient
 import pytest
 import pandas as pd
-from starter.train_model import load_data
-from starter.ml.model import read_model, TrainedModel
+from ml.train_model import load_data
+from ml.model import read_model, TrainedModel
 
 
 @pytest.fixture
@@ -25,3 +27,9 @@ def training_data_fixture():
 #     model_path = 'model/trained_model.joblib'
 #     trained_model = read_model(model_path)
 #     return trained_model
+
+
+@pytest.fixture
+def test_client_fixture():
+    client = TestClient(app)
+    return client
