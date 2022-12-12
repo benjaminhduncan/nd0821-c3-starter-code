@@ -1,8 +1,11 @@
+from joblib import load
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
 
 # Optional: implement hyperparameter tuning.
+
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -24,24 +27,25 @@ def train_model(X_train, y_train):
 
     # Select model parameters for tuning
     parameters = {
-        "n_estimators": [5,50,250,500],
-        "max_depth": [1,3,5,7,9],
-        "learning_rate": [0.01,0.1,1,10,100]
+        "n_estimators": [5, 50, 250, 500],
+        "max_depth": [1, 3, 5, 7, 9],
+        "learning_rate": [0.01, 0.1, 1, 10, 100]
     }
 
     # Perform a hyperparameter tuning grid search
     cv = GridSearchCV(gbc, parameters, cv=5)
-    
+
     cv.fit(X_train, y_train)
 
     # gbc.fit(X_train, y_train)
 
     print(type(cv.best_estimator_))
     print(cv.best_params_)
-    
+
     return cv.best_estimator_
-    
+
     # return gbc
+
 
 def compute_model_metrics(y, preds):
     """
@@ -70,7 +74,7 @@ def inference(model, X):
 
     Inputs
     ------
-    model : ???
+    model : GradientBoostingClassifier
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -79,7 +83,25 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    
+
     preds = model.predict(X)
 
     return preds
+
+
+def read_model(model_path):
+    """ Run model inferences and return the predictions.
+
+    Inputs
+    ------
+    model_path : pathlib.Path
+        Path fo trained machine learning model joblib object.
+    Returns
+    -------
+    model : GradientBoostingClassifier
+        Trained GBM model.
+    """
+
+    trained_model = load(model_path)
+
+    return trained_model
