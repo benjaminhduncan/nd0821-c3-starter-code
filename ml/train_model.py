@@ -1,15 +1,14 @@
-# Script to train machine learning model.
+"""
+Script to train machine learning model.
+"""
 
-from sklearn.model_selection import train_test_split
-from starter.ml.data import process_data
-from starter.ml.model import train_model, compute_model_metrics, inference
 import pandas as pd
-from joblib import dump
-from starter.ml.data import TrainingData
-from starter.ml.model import TrainedModel
+from sklearn.model_selection import train_test_split
+from ml.data import process_data, TrainingData
+from ml.model import train_model, compute_model_metrics, inference, TrainedModel, dump_model
 
 
-def load_data(data_path: str):
+def load_data(data_pth: str) -> TrainingData:
     """
     Loads Census data, splits the sets, pre-processes and returns it.
 
@@ -24,7 +23,7 @@ def load_data(data_path: str):
         TrainingData object containing training data, test data, the encoder and lb.
     """
 
-    data = pd.read_csv(data_path)
+    data = pd.read_csv(data_pth)
     data = data.dropna()
 
     # Split data set into train and test
@@ -49,7 +48,12 @@ def load_data(data_path: str):
 
     # Pre-proces the test data
     X_test, y_test, encoder, lb = process_data(
-        test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb
+        test,
+        categorical_features=cat_features,
+        label="salary",
+        training=False,
+        encoder=encoder,
+        lb=lb
     )
 
     training_data = TrainingData(
@@ -64,7 +68,7 @@ def load_data(data_path: str):
     return training_data
 
 
-def validate_model(training_data: TrainingData, output_path: str):
+def validate_model(training_data: TrainingData) -> TrainedModel:
     """
     Trains the model, computes metrics and returns the trained model.
 
@@ -72,12 +76,10 @@ def validate_model(training_data: TrainingData, output_path: str):
     ------
     training_data
         TrainingData object containing training data, test data, the encoder and lb.
-    output_path
-        Output path for the model object.
     Returns
     -------
     trained_model
-        TrainedModel object containing model, metrics, encoder and lb.
+        TrainingModel object containing trained model and results.
     """
 
     # Train the model
@@ -99,16 +101,22 @@ def validate_model(training_data: TrainingData, output_path: str):
         recall,
         fbeta
     )
-    dump(trained_model, output_path)
+
+    return trained_model
 
 
 def main(data_path, output_path):
+    """
+    Main function for the train_model module.
+    """
+    # TODO: add a docstring
     training_data = load_data(data_path)
-    trained_model = validate_model(training_data, output_path)
+    trained_model = validate_model(training_data)
+    dump_model(trained_model, output_path)
 
 
 if __name__ == "__main__":
     # TODO: convert config to hydra
-    data_path = 'data/census.csv'
-    output_path = 'model/trained_model.joblib'
-    main(data_path, output_path)
+    CENSUS_DATA_PATH = 'data/census.csv'
+    MODEL_OUTPUT_PATH = 'model/trained_model.pkl'
+    main(CENSUS_DATA_PATH, MODEL_OUTPUT_PATH)

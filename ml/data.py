@@ -1,11 +1,18 @@
-import numpy as np
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+"""
+Module containing functions for ML data operations
+"""
+
 from typing import Any
 from dataclasses import dataclass
+import numpy as np
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 @dataclass
 class TrainingData:
+    """
+    Dataclass for containing training data artifacts.
+    """
     # TODO: write deocstring
     X_train: Any
     y_train: Any

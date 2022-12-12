@@ -1,13 +1,21 @@
-from joblib import load
+"""
+Module containing the functions for model operations
+"""
+
+from typing import Any
+from dataclasses import dataclass
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
-from typing import Any
-from dataclasses import dataclass
+
+from dill import load, dump
 
 
 @dataclass
 class TrainedModel:
+    """
+    Data class for trained model objects and metrics.
+    """
     # TODO: write docstring
     model: Any
     encoder: Any
@@ -101,6 +109,19 @@ def inference(model, X):
     return preds
 
 
+def dump_model(trained_model, output_path):
+    """ Run model inferences and return the predictions.
+
+    Inputs
+    ------
+    output_path : pathlib.Path
+        Path fo trained machine learning model joblib object.
+    """
+
+    with open(output_path, 'wb') as file:
+        dump(trained_model, file)
+
+
 def read_model(model_path):
     """ Run model inferences and return the predictions.
 
@@ -113,6 +134,6 @@ def read_model(model_path):
     model : GradientBoostingClassifier
         Trained GBM model.
     """
-    trained_model = load(model_path)
-
-    return trained_model
+    with open(model_path, 'rb') as file:
+        trained_model = load(file)
+        return trained_model
