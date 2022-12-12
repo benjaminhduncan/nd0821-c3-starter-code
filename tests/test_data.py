@@ -6,13 +6,6 @@ from sklearn.preprocessing._encoders import OneHotEncoder
 from sklearn.preprocessing._label import LabelBinarizer
 
 
-@pytest.fixture
-def data_fixture():
-    # TODO: bring path out to a config
-    data = pd.read_csv('data/census.csv')
-    return data
-
-
 def test_process_data(data_fixture):
     # TODO: bring categoricals out to config
     cat_features = [
