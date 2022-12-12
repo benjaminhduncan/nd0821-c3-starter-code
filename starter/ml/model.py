@@ -2,8 +2,19 @@ from joblib import load
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
+from typing import Any
+from dataclasses import dataclass
 
-# Optional: implement hyperparameter tuning.
+
+@dataclass
+class TrainedModel:
+    # TODO: write docstring
+    model: Any
+    encoder: Any
+    lb: Any
+    precision: Any
+    recall: Any
+    fbeta: Any
 
 
 def train_model(X_train, y_train):
@@ -26,10 +37,11 @@ def train_model(X_train, y_train):
     gbc = GradientBoostingClassifier()
 
     # Select model parameters for tuning
+    # Hyperparameters runing has been reduced to best for iteration time.
     parameters = {
-        "n_estimators": [5, 50, 250, 500],
-        "max_depth": [1, 3, 5, 7, 9],
-        "learning_rate": [0.01, 0.1, 1, 10, 100]
+        "n_estimators": [500],
+        "max_depth": [3],
+        "learning_rate": [0.1]
     }
 
     # Perform a hyperparameter tuning grid search
@@ -101,7 +113,6 @@ def read_model(model_path):
     model : GradientBoostingClassifier
         Trained GBM model.
     """
-
     trained_model = load(model_path)
 
     return trained_model

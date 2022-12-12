@@ -1,5 +1,18 @@
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
+from typing import Any
+from dataclasses import dataclass
+
+
+@dataclass
+class TrainingData:
+    # TODO: write deocstring
+    X_train: Any
+    y_train: Any
+    X_test: Any
+    y_test: Any
+    encoder: Any
+    lb: Any
 
 
 def process_data(

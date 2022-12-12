@@ -3,32 +3,10 @@
 from sklearn.model_selection import train_test_split
 from starter.ml.data import process_data
 from starter.ml.model import train_model, compute_model_metrics, inference
-from typing import Any, Union
 import pandas as pd
-from dataclasses import dataclass
 from joblib import dump
-
-
-@dataclass
-class TrainedModel:
-    # TODO: write deocstring
-    model: Any
-    encoder: Any
-    lb: Any
-    precision: Any
-    recall: Any
-    fbeta: Any
-
-
-@dataclass
-class TrainingData:
-    # TODO: write deocstring
-    X_train: Any
-    y_train: Any
-    X_test: Any
-    y_test: Any
-    encoder: Any
-    lb: Any
+from starter.ml.data import TrainingData
+from starter.ml.model import TrainedModel
 
 
 def load_data(data_path: str):
@@ -124,9 +102,13 @@ def validate_model(training_data: TrainingData, output_path: str):
     dump(trained_model, output_path)
 
 
+def main(data_path, output_path):
+    training_data = load_data(data_path)
+    trained_model = validate_model(training_data, output_path)
+
+
 if __name__ == "__main__":
     # TODO: convert config to hydra
     data_path = 'data/census.csv'
     output_path = 'model/trained_model.joblib'
-    training_data = load_data(data_path)
-    trained_model = validate_model(training_data, output_path)
+    main(data_path, output_path)
