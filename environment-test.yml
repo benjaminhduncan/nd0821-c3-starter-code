@@ -6,6 +6,7 @@ channels:
 
 dependencies:
   - numpy
+  - dill
   - pandas
   - scikit-learn
   - requests
