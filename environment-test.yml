@@ -5,8 +5,6 @@ channels:
   - defaults
 
 dependencies:
-  - dvc
-  - dvc-s3
   - numpy
   - dill
   - pandas
