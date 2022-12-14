@@ -1,4 +1,5 @@
 # Put the code for your API here.
+import os
 
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
@@ -9,9 +10,17 @@ from ml.data import process_data
 
 # Declare the data object with its components and their type.
 
+if "DYNO" in os.environ and os.path.isdir(".dvc"):
+    os.system("dvc config core.no_scm true")
+    if os.system("dvc pull") != 0:
+        exit("dvc pull failed")
+    os.system("rm -r .dvc .apt/usr/lib/dvc")
+
 
 class CensusData(BaseModel):
-    # TODO: add a docstring
+    """
+    CensusData model defining the expected input fields for inference.
+    """
     age: int = Field(example=28)
     workclass: str = Field(example='Never-worked')
     fnlwgt: int = Field(example=77516)
@@ -36,7 +45,14 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    # TODO: add a docstring
+    """
+    Function defining the root api get return message.
+
+    Returns
+    -------
+    message : dict
+        Welcome message dictionary.
+    """
     return {"msg": "Welcome to the Salary Classifier API!"}
 
 # This allows inference via POST to the API.
@@ -44,7 +60,18 @@ async def root():
 
 @app.post("/infer")
 async def infer(data_model: CensusData):
-    # TODO: add a docstring
+    """
+    Function defining the inference post endpoint
+
+    Inputs
+    ------
+    data_model: CensusData
+        Data model input for inference
+    Returns
+    -------
+    predictions : str
+        String of predicted income classification.
+    """
     data_dict = data_model.dict()
     data = pd.DataFrame([data_dict])
 
