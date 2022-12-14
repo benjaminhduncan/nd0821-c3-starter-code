@@ -1,0 +1,13 @@
+dill
+autopep8
+pylint
+dvc[s3]
+numpy
+pandas
+scikit-learn
+pytest
+requests
+fastapi
+httpx
+uvicorn
+gunicorn
