@@ -131,8 +131,8 @@ def read_model(model_path):
         Path fo trained machine learning model joblib object.
     Returns
     -------
-    model : GradientBoostingClassifier
-        Trained GBM model.
+    trained_model : TrainedModel
+        Trained model object with encoder and metrics.
     """
     with open(model_path, 'rb') as file:
         trained_model = load(file)
