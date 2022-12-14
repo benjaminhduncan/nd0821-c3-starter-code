@@ -13,27 +13,53 @@ def test_root_get(test_client_fixture):
         "msg": "Welcome to the Salary Classifier API!"}
 
 
-def test_infer_post(test_client_fixture):
+def test_infer_post_less(test_client_fixture):
     """
     Function to test the inference end point
     """
     data_model = {
-        "age": 28,
+        "age": 19,
         "workclass": "Never-worked",
         "fnlwgt": 77516,
-        "education": "Bachelors",
+        "education": "HS-grad",
         "education-num": 13,
         "marital-status": "Divorced",
-        "occupation": "Tech-support",
-        "relationship": "Wife",
+        "occupation": "Handlers-cleaners",
+        "relationship": "Not-in-family",
         "race": "White",
         "sex": "Female",
-        "capital-gain": 2174,
+        "capital-gain": 0,
         "capital-loss": 0,
-        "hours-per-week": 40,
+        "hours-per-week": 20,
         "native-country": "United-States"
     }
     response = test_client_fixture.post('/infer', json=data_model)
     response_value = response.json()['output']
     assert response.status_code == 200
-    assert "50K" in response_value
+    assert "<=50K" in response_value
+
+
+def test_infer_post_more(test_client_fixture):
+    """
+    Function to test the inference end point
+    """
+    data_model = {
+        "age": 50,
+        "workclass": "Private",
+        "fnlwgt": 77516,
+        "education": "Masters",
+        "education-num": 13,
+        "marital-status": "Married-civ-spouse",
+        "occupation": "Exec-managerial",
+        "relationship": "Husband",
+        "race": "White",
+        "sex": "Male",
+        "capital-gain": 0,
+        "capital-loss": 0,
+        "hours-per-week": 60,
+        "native-country": "United-States"
+    }
+    response = test_client_fixture.post('/infer', json=data_model)
+    response_value = response.json()['output']
+    assert response.status_code == 200
+    assert ">50K" in response_value
