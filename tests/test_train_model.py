@@ -13,7 +13,8 @@ def test_load_data():
     """
     # TODO: bring out to config
     data_path = 'data/census.csv'
-    traing_data = load_data(data_path)
+    split_data_path = 'data/split_data.pkl'
+    traing_data = load_data(data_path, split_data_path)
     assert isinstance(traing_data, TrainingData)
 
 

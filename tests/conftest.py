@@ -17,7 +17,8 @@ def data_fixture():
 def training_data_fixture():
     # TODO: bring path out to a config
     data_path = 'data/census.csv'
-    training_data = load_data(data_path)
+    split_data_path = 'data/split_data.pkl'
+    training_data = load_data(data_path, split_data_path)
     return training_data
 
 
