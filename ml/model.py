@@ -25,7 +25,7 @@ class TrainedModel:
     fbeta: Any
 
 
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, tune=False):
     """
     Trains a machine learning model and returns it.
 
@@ -35,6 +35,9 @@ def train_model(X_train, y_train):
         Training data.
     y_train : np.array
         Labels.
+    tune : Boolean
+        Optional parameter to explore the hyperparameter space.
+        Defaults to False (Off)
     Returns
     -------
     model
@@ -47,10 +50,17 @@ def train_model(X_train, y_train):
     # Select model parameters for tuning
     # Hyperparameters runing has been reduced to best for iteration time.
     parameters = {
-        "n_estimators": [5, 50, 250, 500],
-        "max_depth": [1, 3, 5, 7, 9],
-        "learning_rate": [0.01, 0.1, 1, 10, 100]
+        "n_estimators": [500],
+        "max_depth": [3],
+        "learning_rate": [0.1]
     }
+
+    if tune:
+        parameters = {
+            "n_estimators": [5, 50, 250, 500],
+            "max_depth": [1, 3, 5, 7, 9],
+            "learning_rate": [0.01, 0.1, 1, 10, 100]
+        }
 
     # Perform a hyperparameter tuning grid search
     cv = GridSearchCV(gbc, parameters, cv=5)
