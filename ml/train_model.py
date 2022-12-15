@@ -105,12 +105,13 @@ def validate_model(training_data: TrainingData) -> TrainedModel:
     return trained_model
 
 
-def main(data_path, output_path):
+def main(data_path, output_path, training_data_path):
     """
     Main function for the train_model module.
     """
     # TODO: add a docstring
     training_data = load_data(data_path)
+    dump_model(training_data, training_data_path)
     trained_model = validate_model(training_data)
     dump_model(trained_model, output_path)
 
@@ -118,5 +119,6 @@ def main(data_path, output_path):
 if __name__ == "__main__":
     # TODO: convert config to hydra
     CENSUS_DATA_PATH = 'data/census.csv'
+    TRAINING_DATA_PATH = 'data/training_data.pkl'
     MODEL_OUTPUT_PATH = 'model/trained_model.pkl'
-    main(CENSUS_DATA_PATH, MODEL_OUTPUT_PATH)
+    main(CENSUS_DATA_PATH, MODEL_OUTPUT_PATH, TRAINING_DATA_PATH)
