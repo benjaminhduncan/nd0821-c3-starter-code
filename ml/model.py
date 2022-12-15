@@ -47,9 +47,9 @@ def train_model(X_train, y_train):
     # Select model parameters for tuning
     # Hyperparameters runing has been reduced to best for iteration time.
     parameters = {
-        "n_estimators": [500],
-        "max_depth": [3],
-        "learning_rate": [0.1]
+        "n_estimators": [5, 50, 250, 500],
+        "max_depth": [1, 3, 5, 7, 9],
+        "learning_rate": [0.01, 0.1, 1, 10, 100]
     }
 
     # Perform a hyperparameter tuning grid search
