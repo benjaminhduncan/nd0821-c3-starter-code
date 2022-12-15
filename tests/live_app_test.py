@@ -41,7 +41,7 @@ def main():
     Main module for executing live test
     """
     base_url = 'https://census-class-app.herokuapp.com'
-    response_dict = test_live_app(base_url)
+    response_dict = live_app_test(base_url)
     print(response_dict)
 
 
