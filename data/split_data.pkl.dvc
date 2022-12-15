@@ -1,0 +1,4 @@
+outs:
+- md5: 06ad7954edb30ce6b9dcce9de9024470
+  size: 2412578
+  path: split_data.pkl

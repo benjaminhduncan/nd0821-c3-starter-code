@@ -8,18 +8,16 @@ from ml.data import process_data
 
 def predict_slice(data, feature, category, trained_model, cat_features):
     """ Performs inference on a slice of data based on a categorical value for a feature.
-
     Inputs
     ------
     data : pd.DataFrame
-        Dataframe containing the data
+        Dataframe containing the test data
     feature : str
         Name categorical feature of interest
     category : str
         Name level of the feature of interest    
     trained_model: TrainedModel
         Trained Model object containing a trained model for inference
-
     Returns
     -------
     results_df : pd.DataFrame
@@ -81,14 +79,13 @@ def main():
         "native-country",
     ]
 
-    CENSUS_DATA_PATH = 'data/census.csv'
+    SPLIT_DATA_PATH = 'data/split_data.pkl'
     MODEL_OUTPUT_PATH = 'model/trained_model.pkl'
     SLICE_OUTPUT_PATH = './slice_output.txt'
 
+    split_data = read_model(SPLIT_DATA_PATH)
+    data = split_data['test']
     trained_model = read_model(MODEL_OUTPUT_PATH)
-
-    data = pd.read_csv(CENSUS_DATA_PATH)
-    data = data.dropna()
 
     results_list = []
 

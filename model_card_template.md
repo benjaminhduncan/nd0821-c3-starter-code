@@ -11,10 +11,10 @@ This model should be used to predict the expected income of an individual based 
 ## Training Data
 The data used originates from the UCI Machine Learning Repository Census Income Data Set. Located at https://archive.ics.uci.edu/ml/datasets/census+income. Extraction was done by Barry Becker from the 1994 Census database. The target class for this set is a binary salary estimation (>50K, <=50K). 
 
-The set was split into a train and test set using a 80-20 split. No stratification or k-fold methods were used. For training the machine learning model, a OneHotEncoder and LabelBinarizer preprocessing step was applied to the data.
+The set was split into a train and test set using a 80-20 split. This set was stratified on 'race' and 'sex'. For training the machine learning model, a OneHotEncoder and LabelBinarizer preprocessing step was applied to the data.
 
 ## Evaluation Data
-The test set from the test/train split was used in evaluating the model.
+The test set containing 20% of the original data from the test/train split was used in evaluating the model.
 
 ## Metrics
 The model was evaluated against three metrics: fbeta, precision, recall as implemented in the scikit-learn scorers in version 1.2.0.

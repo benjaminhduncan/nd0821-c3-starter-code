@@ -8,7 +8,7 @@ from ml.data import process_data, TrainingData
 from ml.model import train_model, compute_model_metrics, inference, TrainedModel, dump_model
 
 
-def load_data(data_pth: str) -> TrainingData:
+def load_data(data_pth: str, split_data_path: str) -> TrainingData:
     """
     Loads Census data, splits the sets, pre-processes and returns it.
 
@@ -17,6 +17,8 @@ def load_data(data_pth: str) -> TrainingData:
     data_path
         A string representation of the absolute path of the data in csv form.
         Optionaly, a DataFrame can be provided directly.
+    split_data_path
+        A string representation of the outout path for the test/train split data
     Returns
     -------
     training_data
@@ -29,6 +31,8 @@ def load_data(data_pth: str) -> TrainingData:
     # Split data set into train and test
     train, test = train_test_split(
         data, test_size=0.20, stratify=data[['race', 'sex']])
+
+    dump_model({'train': train, 'test': test}, split_data_path)
 
     cat_features = [
         "workclass",
@@ -105,12 +109,12 @@ def validate_model(training_data: TrainingData) -> TrainedModel:
     return trained_model
 
 
-def main(data_path, output_path, training_data_path):
+def main(data_path, output_path, training_data_path, split_data_path):
     """
     Main function for the train_model module.
     """
     # TODO: add a docstring
-    training_data = load_data(data_path)
+    training_data = load_data(data_path, split_data_path)
     dump_model(training_data, training_data_path)
     trained_model = validate_model(training_data)
     dump_model(trained_model, output_path)
@@ -120,5 +124,7 @@ if __name__ == "__main__":
     # TODO: convert config to hydra
     CENSUS_DATA_PATH = 'data/census.csv'
     TRAINING_DATA_PATH = 'data/training_data.pkl'
+    SPLIT_DATA_PATH = 'data/split_data.pkl'
     MODEL_OUTPUT_PATH = 'model/trained_model.pkl'
-    main(CENSUS_DATA_PATH, MODEL_OUTPUT_PATH, TRAINING_DATA_PATH)
+    main(CENSUS_DATA_PATH, MODEL_OUTPUT_PATH,
+         TRAINING_DATA_PATH, SPLIT_DATA_PATH)
