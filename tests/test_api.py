@@ -1,19 +1,22 @@
 """
 Module for testing the API end points
 """
+from fastapi.testclient import TestClient
+from main import app
 
 
-def test_root_get(test_client_fixture):
+def test_root_get():
     """
     Function to test the root get method
     """
-    response = test_client_fixture.get('/')
-    assert response.status_code == 200
-    assert response.json() == {
-        "msg": "Welcome to the Salary Classifier API!"}
+    with TestClient(app) as client:
+        response = client.get('/')
+        assert response.status_code == 200
+        assert response.json() == {
+            "msg": "Welcome to the Salary Classifier API!"}
 
 
-def test_infer_post_less(test_client_fixture):
+def test_infer_post_less():
     """
     Function to test the inference end point
     """
@@ -33,13 +36,14 @@ def test_infer_post_less(test_client_fixture):
         "hours-per-week": 20,
         "native-country": "United-States"
     }
-    response = test_client_fixture.post('/infer', json=data_model)
-    response_value = response.json()['output']
-    assert response.status_code == 200
-    assert "<=50K" in response_value
+    with TestClient(app) as client:
+        response = client.post('/infer', json=data_model)
+        response_value = response.json()['output']
+        assert response.status_code == 200
+        assert "<=50K" in response_value
 
 
-def test_infer_post_more(test_client_fixture):
+def test_infer_post_more():
     """
     Function to test the inference end point
     """
@@ -59,7 +63,8 @@ def test_infer_post_more(test_client_fixture):
         "hours-per-week": 60,
         "native-country": "United-States"
     }
-    response = test_client_fixture.post('/infer', json=data_model)
-    response_value = response.json()['output']
-    assert response.status_code == 200
-    assert ">50K" in response_value
+    with TestClient(app) as client:
+        response = client.post('/infer', json=data_model)
+        response_value = response.json()['output']
+        assert response.status_code == 200
+        assert ">50K" in response_value

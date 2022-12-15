@@ -3,7 +3,6 @@ from fastapi.testclient import TestClient
 import pytest
 import pandas as pd
 from ml.train_model import load_data
-from ml.model import read_model, TrainedModel
 
 
 @pytest.fixture
