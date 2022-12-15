@@ -48,6 +48,9 @@ trained_model = None
 
 @app.on_event("startup")
 async def startup_event():
+    """
+    Function defining the start up events.
+    """
     global trained_model
     trained_model = read_model('model/trained_model.pkl')
 
