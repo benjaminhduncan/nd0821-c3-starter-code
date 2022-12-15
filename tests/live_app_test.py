@@ -4,7 +4,7 @@ Module for testing the live Heroku API application.
 import requests
 
 
-def test_live_app(base_url):
+def live_app_test(base_url):
     """
     Function to test the inference end point
     """
