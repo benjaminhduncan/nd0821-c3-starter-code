@@ -40,6 +40,17 @@ class CensusData(BaseModel):
 
 app = FastAPI()
 
+# Define global
+trained_model = None
+
+# Defines the startup event
+
+
+@app.on_event("startup")
+async def startup_event():
+    global trained_model
+    trained_model = read_model('model/trained_model.pkl')
+
 # Defines root greeting
 
 
@@ -74,9 +85,6 @@ async def infer(data_model: CensusData):
     """
     data_dict = data_model.dict()
     data = pd.DataFrame([data_dict])
-
-    # TODO: bring model path out to a config
-    trained_model = read_model('model/trained_model.pkl')
 
     # TODO bring categoricals out to a config
     cat_features = [
